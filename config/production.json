@@ -1,4 +1,5 @@
 {
   "title": "Graff",
-  "description": "The party chat"
+  "description": "The party chat",
+  "db": "mongodb://localhost/graff"
 }

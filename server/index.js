@@ -8,10 +8,7 @@ var swig = require('swig');
 
 var config = require('./lib/config');
 var logger = require('./lib/logger');
-
-var api = require('./routes/api');
-var admin = require('./routes/admin');
-var frontend = require('./routes/frontend');
+var db = require('./lib/database');
 
 module.exports.start = function() {
   // Initialize express app
@@ -27,22 +24,40 @@ module.exports.start = function() {
     winstonInstance: logger,
     expressFormat: true
   }));
-  app.use(bodyParser.urlencoded({ extended: true }));
+  app.use(bodyParser.urlencoded({
+    extended: true
+  }));
   app.use(bodyParser.json());
 
   // Initialize the view engine
   app.engine('html', swig.renderFile);
   app.set('view engine', 'html');
   app.set('view cache', false);
-  app.set('views', __dirname + './server/views');
+  app.set('views', __dirname + '/views');
+
+  // Initialize the models
+  require('./models/user');
+  require('./models/graff');
+  logger.info('Models loaded.');
 
   // Initialize the routes
-  app.use('/api', api);
-  app.use('/admin', admin);
-  app.use('/', frontend);
+  app.use('/api', require('./routes/api'));
+  app.use('/admin', require('./routes/admin'));
+  app.use('/', require('./routes/frontend'));
+  logger.info('Routes loaded.');
 
-  // TODO
-  //error handler (log + render)
+  // Error handling
+  app.use(function(err, req, res, next) {
+    if (!err) {
+      next();
+    } else {
+      logger.error(err.stack);
+      return res.status(500).json({ message: err.message });
+    }
+  });
+  app.use(function(req, res) {
+    return res.status(404).render('404');
+  });
 
   // Start the server
   app.listen(config.get('port'));

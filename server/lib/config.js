@@ -25,7 +25,7 @@ var config = convict({
   db: {
     doc: "A MongoDB connection string.",
     format: String,
-    default: "mongodb://localhost/graff_development",
+    default: "mongodb://localhost/graff_dev",
     env: "MONGOHQ_URL"
   },
   logLevel: {
