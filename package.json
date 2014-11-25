@@ -1,0 +1,28 @@
+{
+  "name": "Graff",
+  "description": "Graff, the party chat",
+  "version": "0.0.1",
+  "author": "Sylvain Lapendry <sylvain.lapendry@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sylvainlap/graff.git"
+  },
+  "scripts": {
+    "start": "node index"
+  },
+  "dependencies": {
+    "body-parser": "1.9.x",
+    "compression": "1.2.x",
+    "convict": "0.6.x",
+    "express": "4.10.x",
+    "express-winston": "0.2.x",
+    "moment": "2.8.x",
+    "mongoose": "3.8.x",
+    "passport": "0.2.x",
+    "passport-facebook": "1.0.x",
+    "passport-local": "1.0.x",
+    "swig": "1.4.x",
+    "underscore": "1.7.x",
+    "winston": "0.8.x"
+  }
+}
