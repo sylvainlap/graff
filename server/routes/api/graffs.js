@@ -4,6 +4,7 @@ var mongoose = require('mongoose');
 var Graff = mongoose.model('Graff');
 
 module.exports = function(router) {
+
   router.route('/graffs')
 
     .post(function(req, res, next) {
@@ -41,12 +42,21 @@ module.exports = function(router) {
     })
 
     .put(function(req, res, next) {
-      Graff.findByIdAndUpdate(req.params.graffID, req.body, function(err, graff) {
+      Graff.findById(req.params.graffID, function(err, graff) {
         if (err) {
           return next(err);
         }
-        // TODO need to save ?
-        res.status(200).json(graff);
+        if (graff) {
+          graff = _.extend(graff, req.body);
+          graff.save(function(err, graff) {
+            if (err) {
+              return next(err);
+            }
+            res.status(200).json(graff);
+          });
+        } else {
+          res.status(404).json({ message: 'Graff not found.' });
+        }
       });
     })
 
@@ -59,4 +69,4 @@ module.exports = function(router) {
       });
     });
 
-}
+};

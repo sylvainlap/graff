@@ -4,6 +4,7 @@ var bodyParser = require('body-parser');
 var compression = require('compression');
 var express = require('express');
 var expressWinston = require('express-winston');
+var passport = require('passport');
 var swig = require('swig');
 
 var config = require('./lib/config');
@@ -29,16 +30,20 @@ module.exports.start = function() {
   }));
   app.use(bodyParser.json());
 
+  // Initialize the models
+  require('./models/user');
+  require('./models/graff');
+  logger.info('Models loaded.');
+
+  // Initialize Passport strategies
+  app.use(passport.initialize());
+  require('./lib/auth')();
+
   // Initialize the view engine
   app.engine('html', swig.renderFile);
   app.set('view engine', 'html');
   app.set('view cache', false);
   app.set('views', __dirname + '/views');
-
-  // Initialize the models
-  require('./models/user');
-  require('./models/graff');
-  logger.info('Models loaded.');
 
   // Initialize the routes
   app.use('/api', require('./routes/api'));

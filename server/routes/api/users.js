@@ -2,19 +2,11 @@
 
 var mongoose = require('mongoose');
 var User = mongoose.model('User');
+var _ = require('underscore');
 
 module.exports = function(router) {
-  router.route('/users')
 
-    .post(function(req, res, next) {
-      var newUser = new User(req.body);
-      newUser.save(function(err, user) {
-        if (err) {
-          return next(err);
-        }
-        res.status(200).json(user);
-      });
-    })
+  router.route('/users')
 
     .get(function(req, res, next) {
       User.find(function(err, users) {
@@ -41,11 +33,23 @@ module.exports = function(router) {
     })
 
     .put(function(req, res, next) {
-      User.findByIdAndUpdate(req.params.userID, req.body, function(err, user) {
+      // TODO, get the req.user instead of findById
+      User.findById(req.params.userID, function(err, user) {
         if (err) {
           return next(err);
         }
-        res.status(200).json(user);
+        if (user) {
+          user = _.extend(user, req.body);
+          user.updated = Date.now();
+          user.save(function(err, user) {
+            if (err) {
+              return next(err);
+            }
+            res.status(200).json(user);
+          });
+        } else {
+          res.status(404).json({ message: 'User not found.' });
+        }
       });
     })
 
@@ -58,4 +62,4 @@ module.exports = function(router) {
       });
     });
 
-}
+};
