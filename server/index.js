@@ -45,6 +45,9 @@ module.exports.start = function() {
   app.set('view cache', false);
   app.set('views', __dirname + '/views');
 
+  // Initialize static folder
+  app.use(express.static('./client'));
+
   // Initialize the routes
   app.use('/api', require('./routes/api'));
   app.use('/admin', require('./routes/admin'));

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>{{title|title}}</title>
+
+    <meta charset="utf-8">
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+
+    <meta name="description" content="{{description}}">
+
+    <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="lib/fontawesome/css/font-awesome.min.css">
+
+    <style>
+      body { padding-top: 30px; }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <header>
+        <div class="jumbotron text-center">
+          <h1><span class="fa fa-pencil-square-o"></span> {{title|title}}</h1>
+          <p>{{description}}</p>
+        </div>
+      </header>
+
+      {% block content %}{% endblock %}
+
+      <footer>
+        <p><a href="/admin">Graff Admin</a></p>
+      </footer>
+    </div>
+  </body>
+</html>
