@@ -1,5 +1,6 @@
 'use strict';
 
+var _ = require('underscore');
 var mongoose = require('mongoose');
 var Graff = mongoose.model('Graff');
 
@@ -38,7 +39,7 @@ module.exports = function(router) {
         } else {
           res.status(404).json({ message: 'Graff not found.' });
         }
-      })
+      });
     })
 
     .put(function(req, res, next) {

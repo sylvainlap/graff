@@ -13,7 +13,7 @@ var logger = new winston.Logger({
     ),
     new winston.transports.File(
       {
-        filename: "graff." + config.get('env') + ".log",
+        filename: 'logs/graff.' + config.get('env') + '.log',
         maxsize: 20000000,
         level: config.get('logLevel')
       }

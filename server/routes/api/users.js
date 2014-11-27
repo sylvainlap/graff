@@ -1,8 +1,8 @@
 'use strict';
 
+var _ = require('underscore');
 var mongoose = require('mongoose');
 var User = mongoose.model('User');
-var _ = require('underscore');
 
 module.exports = function(router) {
 
@@ -29,7 +29,7 @@ module.exports = function(router) {
         } else {
           res.status(404).json({ message: 'User not found.' });
         }
-      })
+      });
     })
 
     .put(function(req, res, next) {

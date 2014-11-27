@@ -67,4 +67,4 @@ module.exports.start = function() {
   // Start the server
   app.listen(config.get('port'));
   logger.info('Graff is running at http://' + config.get('ip') + ':' + config.get('port') + '/.');
-}
+};

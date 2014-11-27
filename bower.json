@@ -1,0 +1,10 @@
+{
+  "name": "Graff",
+  "description": "Graff, the party chat",
+  "version": "0.0.1",
+  "author": "Sylvain Lapendry <sylvain.lapendry@gmail.com>",
+  "dependencies": {
+    "angular": "1.3.x",
+    "bootstrap": "3.3.x"
+  }
+}

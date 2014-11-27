@@ -1,2 +1,4 @@
+bower_components/
+logs/
 node_modules/
-*.log
+client/lib/
