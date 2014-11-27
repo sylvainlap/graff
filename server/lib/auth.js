@@ -25,7 +25,7 @@ var auth = function() {
       if (err) {
         return done(err);
       }
-      if (!user) {
+      if (!user) { // TODO message vraiment utile ?
         return done(null, false, { message: 'Unknown user or invalid password' });
       }
       if (!user.authenticate(password)) {
