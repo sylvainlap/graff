@@ -1,5 +1,6 @@
 {
   "title": "Graff",
   "description": "The party chat",
-  "db": "mongodb://localhost/graff"
+  "db": "mongodb://localhost/graff",
+  "logStream": "access.log"
 }

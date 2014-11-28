@@ -15,15 +15,14 @@
     "compression": "1.2.x",
     "convict": "0.6.x",
     "express": "4.10.x",
-    "express-winston": "0.2.x",
     "moment": "2.8.x",
     "mongoose": "3.8.x",
+    "morgan": "1.5.x",
     "passport": "0.2.x",
     "passport-facebook": "1.0.x",
     "passport-local": "1.0.x",
     "swig": "1.4.x",
-    "underscore": "1.7.x",
-    "winston": "0.8.x"
+    "underscore": "1.7.x"
   },
   "devDependencies": {
     "gulp": "3.8.x",
