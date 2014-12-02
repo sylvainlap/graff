@@ -1,6 +1,6 @@
 'use strict';
 
-var Graff = angular.module('Graff', ['ngRoute']);
+var Graff = angular.module('Graff', ['ngResource', 'ngRoute']);
 
 Graff.config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
   $routeProvider
@@ -9,6 +9,11 @@ Graff.config(['$routeProvider', '$locationProvider', function($routeProvider, $l
     .otherwise({ redirectTo: '/' });
 
   $locationProvider.hashPrefix('!');
+}]);
+
+Graff.factory('Graff', ['$resource', function($resource) {
+  // TODO, le graffID n est pas par defaut ?
+  return $resource('/api/graffs/:graffID', { graffID: @graffID }, { 'update': { method: 'PUT' } });
 }]);
 
 Graff.controller('HomeController', ['$scope', function($scope) {
