@@ -5,6 +5,7 @@ var compression = require('compression');
 var express = require('express');
 var morgan = require('morgan');
 var passport = require('passport');
+var session = require('express-session');
 var swig = require('swig');
 
 var config = require('./lib/config');
@@ -26,6 +27,12 @@ module.exports.start = function() {
     extended: true
   }));
   app.use(bodyParser.json());
+  app.use(session({
+    name: config.get('sessionName'),
+    secret: config.get('sessionSecret'),
+    resave: false,
+    saveUninitialized: true
+  }));
 
   // Initialize the models
   require('./models/user');
@@ -33,6 +40,7 @@ module.exports.start = function() {
 
   // Initialize Passport strategies
   app.use(passport.initialize());
+  app.use(passport.session());
   require('./lib/auth')();
 
   // Initialize the view engine

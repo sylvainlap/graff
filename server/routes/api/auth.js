@@ -22,7 +22,17 @@ module.exports = function(router) {
 
   router.route('/signin')
 
-  // TODO
-    .post(passport.authenticate('local', { successRedirect: '/', failureRedirect: '/login' }));
+    .post(passport.authenticate('local'), function(req, res, next) {
+      //req.user.password = undefined;
+      //req.user.salt = undefined;
+      res.json(req.user);
+    });
+
+  router.route('/signout')
+
+    .get(function(req, res, next) {
+      req.logout();
+      res.status(200).end();
+    });
 
 };

@@ -31,6 +31,16 @@ var config = convict({
     doc: 'Output stream for writing log lines',
     format: String,
     default: 'process.stdout'
+  },
+  sessionName: {
+    doc: 'The name of session cookie',
+    format: String,
+    default: 'graff.sid'
+  },
+  sessionSecret: {
+    doc: 'Session cookie is signed with this secret',
+    format: String,
+    default: 'MySuperS3cret'
   }
 });
 

@@ -25,11 +25,11 @@ var auth = function() {
       if (err) {
         return done(err);
       }
-      if (!user) { // TODO message vraiment utile ?
-        return done(null, false, { message: 'Unknown user or invalid password' });
+      if (!user) {
+        return done(null, false);
       }
       if (!user.authenticate(password)) {
-        return done(null, false, { message: 'Unknown user or invalid password' });
+        return done(null, false);
       }
       return done(null, user);
     });

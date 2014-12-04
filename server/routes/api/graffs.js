@@ -6,9 +6,17 @@ var Graff = mongoose.model('Graff');
 
 module.exports = function(router) {
 
+  var requiresLogin = function(req, res, next) {
+    if (!req.isAuthenticated()) {
+      res.status(401).end();
+    } else {
+      next();
+    }
+  };
+
   router.route('/graffs')
 
-    .post(function(req, res, next) {
+    .post(requiresLogin, function(req, res, next) {
       var newGraff = new Graff(req.body);
       newGraff.save(function(err, graff) {
         if (err) {
@@ -18,7 +26,7 @@ module.exports = function(router) {
       });
     })
 
-    .get(function(req, res, next) {
+    .get(requiresLogin, function(req, res, next) {
       Graff.find(function(err, graffs) {
         if (err) {
           return next(err);
@@ -29,7 +37,7 @@ module.exports = function(router) {
 
   router.route('/graffs/:graffID')
 
-    .get(function(req, res, next) {
+    .get(requiresLogin, function(req, res, next) {
       Graff.findById(req.params.graffID).populate('_user').exec(function(err, graff) {
         if (err) {
           return next(err);
@@ -42,7 +50,7 @@ module.exports = function(router) {
       });
     })
 
-    .put(function(req, res, next) {
+    .put(requiresLogin, function(req, res, next) {
       Graff.findById(req.params.graffID, function(err, graff) {
         if (err) {
           return next(err);
@@ -61,7 +69,7 @@ module.exports = function(router) {
       });
     })
 
-    .delete(function(req, res, next) {
+    .delete(requiresLogin, function(req, res, next) {
       Graff.findByIdAndRemove(req.params.graffID, function(err) {
         if (err) {
           return next(err);
