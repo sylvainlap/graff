@@ -1,7 +1,7 @@
 <div class="col-md-6 col-md-offset-3">
   <h1><span class="fa fa-sign-in"></span> Sign in</h1>
   <div ng-show="error" class="alert alert-danger" role="alert">
-    {{error}}
+    <strong ng-bind="error"></strong>
   </div>
   <form ng-submit="signin()">
     <div class="form-group">
