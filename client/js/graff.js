@@ -30,6 +30,7 @@ Graff.config(['$httpProvider', function($httpProvider) {
       responseError: function(rejection) {
         console.log('INTERCEPTE! ' + rejection.status);
         if (rejection.status === 401) {
+        	// TODO, vérifier si on redirige vers SignIn depuis les graffs, le $scope.error est affiché ?
           $location.path('/signin');
         }
         return $q.reject(rejection);
@@ -84,7 +85,7 @@ Graff.controller('SigninController', ['$scope', '$http', 'AuthService', function
 
 }]);
 
-  Graff.controller('SignupController', ['$scope', '$http', 'AuthService', function($scope, $http, AuthService) {
+Graff.controller('SignupController', ['$scope', '$http', 'AuthService', function($scope, $http, AuthService) {
   $scope.auth = AuthService;
 
   // if user is already signed in, redirect to home
