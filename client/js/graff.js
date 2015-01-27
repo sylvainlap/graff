@@ -19,6 +19,18 @@ Graff.config(['$routeProvider', '$locationProvider', function($routeProvider, $l
       templateUrl: 'views/signup.html',
       controller: 'SignupController'
     })
+    .when('/profile', {
+      templateUrl: 'views/profile.html',
+      controller: 'ProfileController'
+    })
+    .when('/graffs', {
+      templateUrl: 'views/graffs.html',
+      controller: 'GraffsController'
+    })
+    .when('/newGraff', {
+      templateUrl: 'views/newGraff.html',
+      controller: 'NewGraffController'
+    })
     .otherwise({ redirectTo: '/' });
 
   $locationProvider.hashPrefix('!');
@@ -41,25 +53,29 @@ Graff.config(['$httpProvider', function($httpProvider) {
 
 // services
 
-Graff.factory('GraffsService', ['$resource', function($resource) {
+/*Graff.factory('GraffsService', ['$resource', function($resource) {
   // TODO, le graffID n est pas par defaut ?
   return $resource('/api/graffs/:graffID', { graffID: '@graffID' }, { 'update': { method: 'PUT' } });
-}]);
+}]);*/
 
-Graff.factory('AuthService', function() {
+Graff.factory('AuthService', ['$window', function($window) {
   var auth = {
-    user: window.user
+    user: $window.user
   };
+  console.log('je suis dans la factory !!!');
   return auth;
-});
+}]);
 
 // controllers
 
-Graff.controller('HomeController', ['$scope', function($scope) {
-  $scope.message = 'Home';
+Graff.controller('HomeController', ['$scope', '$location', 'AuthService', function($scope, $location, AuthService) {
+  $scope.auth = AuthService;
+  if ($scope.auth.user) {
+    $location.path('/graffs');
+  }
 }]);
 
-Graff.controller('SigninController', ['$scope', '$http', 'AuthService', function($scope, $http, AuthService) {
+Graff.controller('SigninController', ['$scope', '$location', '$http', 'AuthService', function($scope, $location, $http, AuthService) {
   $scope.auth = AuthService;
 
   // if user is already signed in, redirect to home
@@ -70,43 +86,69 @@ Graff.controller('SigninController', ['$scope', '$http', 'AuthService', function
   $scope.signin = function() {
     $http.post('/api/signin', $scope.credentials)
       .success(function(data, status) {
-        //todo $scope.auth.user = user;
-        console.log('success signin!');
-        console.log('data: ' + data);
-        console.log('status: ' + status);
+        $scope.auth.user = data;
+        $location.path('/');
       })
-      .error(function(data, status, headers, config) {
-        console.log('error signin!');
-        console.log('user: ' + $scope.auth.user);
-        $scope.auth.user = undefined;
+      .error(function(data, status) {
+        $scope.user = undefined;
         $scope.error = data;
       });
   };
 
 }]);
 
-Graff.controller('SignupController', ['$scope', '$http', 'AuthService', function($scope, $http, AuthService) {
-  $scope.auth = AuthService;
+Graff.controller('SignupController', ['$scope', '$location', '$http', 'AuthService', function($scope, $location, $http, AuthService) {
+  $scope.user = AuthService.user;
 
   // if user is already signed in, redirect to home
-  if ($scope.auth.user) {
+  if ($scope.user) {
     $location.path('/');
   }
 
   $scope.signup = function() {
     $http.post('/api/signup', $scope.credentials)
       .success(function(data, status) {
-        //todo $scope.auth.user = user;
-        console.log('success singup!');
-        console.log('data: ' + data);
-        console.log('status: ' + status);
+        $scope.auth.user = data;
+        $location.path('/');
       })
       .error(function(data, status, headers, config) {
-        console.log('error signup!');
-        console.log('user: ' + $scope.auth.user);
-        $scope.auth.user = undefined;
+        $scope.user = undefined;
         $scope.error = data;
       });
   };
+
+}]);
+
+Graff.controller('HeaderController', ['$scope', '$location', 'AuthService', function($scope, $location, AuthService) {
+  $scope.auth = AuthService;
+}]);
+
+Graff.controller('ProfileController', ['$scope', '$location', 'AuthService', function($scope, $location, AuthService) {
+  $scope.auth = AuthService;
+  if (!$scope.auth.user) {
+    $location.path('/signin');
+  }
+
+}]);
+
+Graff.controller('NewGraffController', ['$scope', '$location', 'AuthService', function($scope, $location, AuthService) {
+  $scope.auth = AuthService;
+  if (!$scope.auth.user) {
+    $location.path('/signin');
+  }
+
+  // TODO: les fonctions pour poster un graff
+
+
+}]);
+
+Graff.controller('GraffsController', ['$scope', '$location', 'AuthService', function($scope, $location, AuthService) {
+  $scope.auth = AuthService;
+  if (!$scope.auth.user) {
+    $location.path('/signin');
+  }
+
+  // TODO: les fonctions pour afficher les graffs
+
 
 }]);

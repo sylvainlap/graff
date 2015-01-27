@@ -32,7 +32,7 @@ module.exports = function(router) {
 
     .get(function(req, res, next) {
       req.logout();
-      res.status(200).end();
+      res.redirect('/');
     });
 
 };
